@@ -7,8 +7,9 @@ const streamPipeline = require('util').promisify(require('stream').pipeline);
 const dbPath = path.join(__dirname, 'apod.db');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const apiKey = 'onqUeG7houLTl0E43vDHyDzdSy0ZtImfKtVEihig'; //todo replace with a define and add it to .gitignore
+const { apiKey } = require('../config');
 const imagesDirectory = path.join(__dirname, 'public', 'images');
+
 
 // Initialize the SQLite database
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
