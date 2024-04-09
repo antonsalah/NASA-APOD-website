@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>APOD Display</title>
+        <link rel = "stylesheet" href="style.css">
+        <link rel="preload" href="betterbackground2.jpg" as="image">
+
+
+    </head>
+    <body>
+
+        <h1 id = "MainTitle"> NASA's Astronomy Photo of the Day (APOD)</h1>
+        <h2 id = "pictureBlurb"> Pillars of Creation</h2>
+
+        <div id = "imageContainer">
+            <img id = "mainImage" src = "pillarsOfCreation.jpg" alt="Pillars of Creation">
+        </div>
+
+        <div id = "dateSelector">
+            <input type="date" id = "date">
+            <button type = "submit" id = "submitButton">Submit Date</button>
+        </div>
+        <h3>Explaination</h3>
+        <p id = "explaination">These towering tendrils of cosmic dust and gas sit at the heart of M16, or the Eagle Nebula. The aptly named Pillars of Creation, featured in this stunning Hubble image, are part of an active star-forming region within the nebula and hide newborn stars in their wispy columns.
+
+            Although this is not Hubble's first image of this iconic feature of the Eagle Nebula, it is the most detailed. The blue colors in the image represent oxygen, red is sulfur, and green represents both nitrogen and hydrogen. The pillars are bathed in the scorching ultraviolet light from a cluster of young stars located just outside the frame. The winds from these stars are slowly eroding the towers of gas and dust.
+            
+            Stretching roughly 4 to 5 light-years, the Pillars of Creation are a fascinating but relatively small feature of the entire Eagle Nebula, which spans 70 by 55 light-years. The nebula, discovered in 1745 by the Swiss astronomer Jean-Philippe Loys de Chéseaux, is located 7,000 light-years from Earth in the constellation Serpens. With an apparent magnitude of 6, the Eagle Nebula can be spotted through a small telescope and is best viewed during July. A large telescope and optimal viewing conditions are necessary to resolve the Pillars of Creation.</p>
+    
+    </body>
+    <script>
+        document.getElementById('submitButton').addEventListener('click', async () => {
+            const date = document.getElementById('date').value;
+            if (date) {
+                const response = await fetch(`/apod/${date}`);
+                const data = await response.json();
+                console.log(data);
+                if (response.ok && data.imageUrl) {
+                    document.getElementById('mainImage').src = data.imageUrl;
+                    document.getElementById('pictureBlurb').textContent = data.title;
+                    document.getElementById('explaination').textContent = data.explanation;
+                } else {
+                    alert('Failed to fetch APOD: ' + (data.error || 'Unknown error'));
+                }
+            }
+        });
+        </script>
+        
+</html>
